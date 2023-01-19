@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_title">Aracuã Notes</string>
+    <string name="app_name">Aracua</string>
+    <string name="add_note">Back</string>
+    <string name="note_record">Record</string>
+    <string name="note_title">Note title</string>
+    <string name="note_invalid_value">Invalid value!</string>
+    <string name="note_body">What\'s going on?</string>
+    <string name="no_notes_yet">No notes yet!</string>
+    <string name="note_recording">Recording</string>
+    <string name="back">Back</string>
+</resources>
