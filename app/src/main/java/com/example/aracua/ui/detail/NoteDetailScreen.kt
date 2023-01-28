@@ -35,7 +35,7 @@ fun NoteDetailScreen(
 ) {
 
     val permissionState = rememberPermissionState(
-        permission = Manifest.permission.ACCESS_NOTIFICATION_POLICY
+        permission = Manifest.permission.RECORD_AUDIO
     )
     SideEffect {
         permissionState.launchPermissionRequest()
@@ -62,10 +62,8 @@ fun NoteDetailScreen(
             onValueChangeBody = viewModel::updateBody
         )
 
-        val context = LocalContext.current
         ActionButtons(
             onRecord = {
-                Toast.makeText(context, "Permission! ${permissionState.status.isGranted}", Toast.LENGTH_SHORT).show()
                 if (permissionState.status.isGranted) {
                     speechRecognizerLauncher.launch(Unit)
                 } else {
