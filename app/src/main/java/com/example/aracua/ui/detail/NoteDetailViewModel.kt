@@ -24,6 +24,9 @@ class NoteDetailViewModel(
     private var _uiState = MutableStateFlow(NoteDetailUiState())
     val uiState = _uiState.asStateFlow()
 
+    private var _events = MutableSharedFlow<NoteDetailEvent>()
+    val events = _events.asSharedFlow()
+
     /**
      * this is definitely not the best way to "inject" a repository to the ViewModel
      * TODO proper DI or AppContainer
@@ -90,7 +93,9 @@ class NoteDetailViewModel(
             } else {
                 repository.update(note = _uiState.value.note.toModel())
             }
-
+            _events.emit(NoteDetailEvent.SavingSuccess)
+        } else {
+            _events.emit(NoteDetailEvent.SavingFailure)
         }
     }
 

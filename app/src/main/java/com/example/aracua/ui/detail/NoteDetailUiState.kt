@@ -13,3 +13,10 @@ data class NoteDetailUiState(
     val isTitleError: Boolean = false,
     val isBodyError: Boolean = false
 )
+
+sealed interface NoteDetailEvent {
+
+    object SavingSuccess : NoteDetailEvent
+
+    object SavingFailure: NoteDetailEvent
+}

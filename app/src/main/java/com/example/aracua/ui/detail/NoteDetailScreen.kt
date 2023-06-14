@@ -5,6 +5,7 @@
 package com.example.aracua.ui.detail
 
 import android.Manifest
+import android.content.Context
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.*
@@ -51,6 +52,20 @@ fun NoteDetailScreen(
     val uiState by viewModel.uiState.collectAsState()
     val scope = rememberCoroutineScope()
 
+    val context = LocalContext.current
+
+    LaunchedEffect(true) {
+        viewModel.events.collect {
+            processEvent(
+                event = it,
+                success = navigateBack,
+                failure = {
+                    Toast.makeText(context, "Oops", Toast.LENGTH_SHORT).show()
+                }
+            )
+        }
+    }
+
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -73,7 +88,6 @@ fun NoteDetailScreen(
             onSave = {
                      scope.launch {
                          viewModel.trySave()
-                         navigateBack()
                      }
             },
             onDelete = {
@@ -175,6 +189,22 @@ fun ActionButtons(
                 imageVector = Icons.Outlined.Add,
                 contentDescription = stringResource(R.string.add_note)
             )
+        }
+    }
+}
+
+
+private fun processEvent(
+    event: NoteDetailEvent,
+    success: () -> Unit,
+    failure: () -> Unit
+) {
+    when (event) {
+        is NoteDetailEvent.SavingSuccess -> {
+            success()
+        }
+        is NoteDetailEvent.SavingFailure -> {
+            failure()
         }
     }
 }
